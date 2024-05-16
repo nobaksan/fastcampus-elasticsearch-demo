@@ -2,18 +2,21 @@ package com.example.demo.indexer;
 
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import co.elastic.clients.util.ContentType;
+import co.elastic.clients.elasticsearch.core.CountRequest;
+import co.elastic.clients.elasticsearch.indices.DeleteIndexRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +26,8 @@ public class IndexerHelper {
     private final ElasticsearchClientManager elasticsearchClientManager;
     private final ObjectMapper objectMapper;
 
-    public Boolean createIndex(String indexName, Map<String, Object> indexTemplate) throws IOException {
-
+    public void createIndex(String indexName, Map<String, Object> indexTemplate) throws IOException {
+        indexTemplate = null;
         /*elasticsearchClientManager.getElasticsearchClient("indexer")
                 .indices()
                 .create(c -> c
@@ -36,14 +39,14 @@ public class IndexerHelper {
         Request request = new Request(HttpPut.METHOD_NAME, "/" + indexName);
         if (ObjectUtils.isNotEmpty(indexTemplate)) {
             String requestBody = jsonMapToString(indexTemplate);
-            HttpEntity entity = new NStringEntity(requestBody, ContentType.APPLICATION_JSON);
+            HttpEntity entity = new NStringEntity(requestBody, ContentType.create("application/json", StandardCharsets.UTF_8));
             request.setEntity(entity);
         }
         try {
-            restClient.performRequest(request);
-            return true;
+            Response response = restClient.performRequest(request);
+            System.out.printf(response.toString());
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
     }
 
@@ -56,5 +59,26 @@ public class IndexerHelper {
     }
 
 
+    public void deleteIndex(String indexName) {
+        DeleteIndexRequest deleteIndexRequest = DeleteIndexRequest.of(d -> d.index(indexName));
+        try {
+            elasticsearchClientManager.getElasticsearchClient("indexer")
+                    .indices()
+                    .delete(deleteIndexRequest);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Long countIndex(String indexName) {
+        CountRequest countRequest = CountRequest.of(c -> c.index(indexName));
+        try {
+            return elasticsearchClientManager.getElasticsearchClient("indexer")
+                    .count(countRequest)
+                    .count();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

@@ -24,6 +24,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.2'
     implementation group: 'co.elastic.clients', name: 'elasticsearch-java', version: '8.13.3'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
 
 
 }
