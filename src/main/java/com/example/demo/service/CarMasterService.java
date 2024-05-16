@@ -1,8 +1,12 @@
 package com.example.demo.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import co.elastic.clients.elasticsearch.core.CountRequest;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import com.example.demo.controller.dto.CarMaster;
 import com.example.demo.util.FileUtil;
 import com.example.demo.indexer.IndexerHelper;
 import lombok.RequiredArgsConstructor;
@@ -24,4 +28,17 @@ public class CarMasterService {
         indexerHelper.deleteIndex(indexName);
     }
 
+    public Long countIndex(String indexName) {
+        return indexerHelper.countIndex(indexName);
+    }
+
+    public List<CarMaster.Response> search(CarMaster.Request request) throws IOException {
+        SearchRequest searchRequest = SearchRequest.of(s -> s
+                .index(request.getIndexName())
+                .query(q -> q.matchAll(m -> m))
+                .size(100)
+        );
+
+        return indexerHelper.search(searchRequest);
+    }
 }

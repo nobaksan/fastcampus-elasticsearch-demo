@@ -3,10 +3,14 @@ package com.example.demo.indexer;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 
 import co.elastic.clients.elasticsearch.core.CountRequest;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.DeleteIndexRequest;
+import com.example.demo.controller.dto.CarMaster;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +31,6 @@ public class IndexerHelper {
     private final ObjectMapper objectMapper;
 
     public void createIndex(String indexName, Map<String, Object> indexTemplate) throws IOException {
-        indexTemplate = null;
         /*elasticsearchClientManager.getElasticsearchClient("indexer")
                 .indices()
                 .create(c -> c
@@ -81,4 +84,10 @@ public class IndexerHelper {
         }
     }
 
+    public List<CarMaster.Response> search(SearchRequest searchRequest) throws IOException {
+        return elasticsearchClientManager.getElasticsearchClient("indexer")
+                .search(searchRequest, CarMaster.Response.class)
+                .hits().hits().stream().map(Hit::source)
+                .toList();
+    }
 }
