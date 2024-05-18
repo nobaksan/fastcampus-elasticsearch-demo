@@ -19,6 +19,25 @@ public class CarMaster {
         private int page;
         private int size;
         private String keyword;
+
+
+        private String country;
+        private String region;
+        private String state;
+        private String manufacturer;
+        private String model;
+        private String color;
+        private String fuel;
+        private String type;
+        private String transmission;
+        private String cylinders;
+        private Integer startYear;
+        private Integer endYear;
+        private Long startPrice;
+        private Long endPrice;
+        private Long startOdometer;
+        private Long endOdometer;
+
     }
 
     @Getter
