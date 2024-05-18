@@ -90,4 +90,11 @@ public class IndexerHelper {
                 .hits().hits().stream().map(Hit::source)
                 .toList();
     }
+
+    public List<CarMaster.CompletionResponse> completionSearch(SearchRequest searchRequest) throws IOException {
+        return elasticsearchClientManager.getElasticsearchClient("indexer")
+                .search(searchRequest, CarMaster.CompletionResponse.class)
+                .hits().hits().stream().map(Hit::source)
+                .toList();
+    }
 }

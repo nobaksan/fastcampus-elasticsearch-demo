@@ -38,4 +38,9 @@ public class CarMasterController {
         return carMasterService.search(request);
     }
 
+    @GetMapping("/completion")
+    public List<CarMaster.CompletionResponse> completion(@ModelAttribute CarMaster.CompletionRequest request) throws IOException {
+        return carMasterService.completionV2(request);
+    }
+
 }

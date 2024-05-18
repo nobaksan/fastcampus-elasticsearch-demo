@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,5 +56,26 @@ public class CarMaster {
             private String state;
             private String region;
         }
+    }
+
+    @Getter
+    @Setter
+    public static class CompletionRequest {
+        private String indexName;
+        private String keyword;
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE)
+    public static class CompletionResponse {
+        private String id;
+        private Integer year;
+        private String manufacturer;
+        private String transmission;
+        private String model;
+        private String brand;
     }
 }
