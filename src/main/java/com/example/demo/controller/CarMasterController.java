@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.example.demo.controller.dto.CarMaster;
+import com.example.demo.service.CarMasterCountService;
 import com.example.demo.service.CarMasterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarMasterController {
 
     private final CarMasterService carMasterService;
+    private final CarMasterCountService carMasterCountService;
 
     @GetMapping("/create-index")
     public void create(@RequestParam String indexName) throws IOException {
@@ -36,6 +38,11 @@ public class CarMasterController {
     @GetMapping("/search")
     public List<CarMaster.Response> search(@ModelAttribute CarMaster.Request request) throws IOException {
         return carMasterService.search(request);
+    }
+
+    @GetMapping("/search/count")
+    public Long searchCount(@ModelAttribute CarMaster.Request request) throws IOException {
+        return carMasterCountService.count(request);
     }
 
     @GetMapping("/completion")

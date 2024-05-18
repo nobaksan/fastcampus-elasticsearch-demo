@@ -97,4 +97,10 @@ public class IndexerHelper {
                 .hits().hits().stream().map(Hit::source)
                 .toList();
     }
+
+    public Long count(CountRequest countRequest) throws IOException {
+        return elasticsearchClientManager.getElasticsearchClient("query")
+                .count(countRequest)
+                .count();
+    }
 }
