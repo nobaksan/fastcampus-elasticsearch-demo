@@ -16,6 +16,9 @@ public class CarMaster {
     @Setter
     public static class Request {
         private String indexName;
+        private int page;
+        private int size;
+        private String keyword;
     }
 
     @Getter
@@ -23,21 +26,24 @@ public class CarMaster {
     @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE)
     public static class Response {
-        private String regionUrl;
-        private String color;
+
+        private String imageUrl;
+        private String brand;
+        private String model;
+        private Long price;
+        private Long odometer;
         private Integer year;
+        private String color;
+
+        /*
+        private String regionUrl;
         private String fuel;
         private String type;
         private String manufacturer;
         private String transmission;
-        private Long price;
-        private String model;
         private String vin;
         private String id;
         private String postingDate;
-        private String brand;
-        private Long odometer;
-        private String imageUrl;
         private String cylinders;
         private String url;
         @JsonProperty("timeStamp")
@@ -56,6 +62,7 @@ public class CarMaster {
             private String state;
             private String region;
         }
+         */
     }
 
     @Getter

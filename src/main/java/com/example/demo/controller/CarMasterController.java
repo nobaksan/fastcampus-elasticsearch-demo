@@ -40,7 +40,7 @@ public class CarMasterController {
 
     @GetMapping("/completion")
     public List<CarMaster.CompletionResponse> completion(@ModelAttribute CarMaster.CompletionRequest request) throws IOException {
-        return carMasterService.completionV2(request);
+        return carMasterService.completion(request);
     }
 
 }
