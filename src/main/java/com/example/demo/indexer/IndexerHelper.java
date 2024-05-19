@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch.core.CountRequest;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.search.Hit;
@@ -102,5 +103,12 @@ public class IndexerHelper {
         return elasticsearchClientManager.getElasticsearchClient("query")
                 .count(countRequest)
                 .count();
+    }
+
+    public Map<String, Aggregate> searchAggregation(SearchRequest searchRequest) throws IOException {
+        return elasticsearchClientManager.getElasticsearchClient("query")
+                .search(searchRequest, Void.class)
+                .aggregations();
+
     }
 }
